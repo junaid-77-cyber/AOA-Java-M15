@@ -1,6 +1,6 @@
 
 # EX 5C Graph coloring
-## DATE:
+
 ## AIM:
 To write a Java program to for given constraints.
 Problem Description:
@@ -26,24 +26,74 @@ Otherwise, print "NO".
 
 
 ## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
+1. Read the number of vertices (n), number of colors (m), and edges (connections) from the user.
+
+2. Represent the graph using an adjacency list.
+
+3. Initialize a color array of size n with all values set to 0 (no color assigned).
+
+4. For each node, try assigning colors from 1 to m:
+   - Check if assigning a color is safe (no adjacent node has the same color).
+   - If safe, assign the color and recursively proceed to the next node.
+   - If not successful, backtrack by resetting the color.
+
+5. If all nodes are successfully colored, print "YES"; otherwise, print "NO".
 
 ## Program:
-```
+```java
 /*
-Program to implement Reverse a String
-Developed by: 
-Register Number:  
+Program to check if a graph can be colored using at most m colors using backtracking
+Developed by: Junaid Sardar S
+Register Number: 212224100028 
 */
+
+import java.util.*;
+public class prog {
+    public static boolean isColorable(List<List<Integer>> graph, int[] color, int node, int m, int n) {
+        if (node == n) return true;
+        for (int c = 1; c <= m; c++) {
+            if (isSafe(graph, color, node, c)) {
+                color[node] = c;
+                if (isColorable(graph, color, node + 1, m, n))
+                    return true;
+                color[node] = 0;
+            }
+        }
+        return false;
+    }
+    public static boolean isSafe(List<List<Integer>> graph, int[] color, int node, int c) {
+        for (int neighbor : graph.get(node)) {
+            if (color[neighbor] == c)
+                return false;
+        }
+        return true;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // number of towers
+        int m = sc.nextInt(); // number of channels
+        int e = sc.nextInt(); // number of connections
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+        for (int i = 0; i < e; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        int[] color = new int[n];
+        if (isColorable(graph, color, 0, m, n))
+            System.out.println("YES");
+        else
+            System.out.println("NO");
+        sc.close();
+    }
+}
 ```
 
 ## Output:
-
-
+![alt text](15.3.png)
 
 ## Result:
 The program successfully implemented and the expected output is verified.
